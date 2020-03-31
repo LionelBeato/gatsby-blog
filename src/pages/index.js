@@ -31,8 +31,8 @@ const IndexPage = () => (
           {/* simple map higher order function that will render all of our games */}
           {data.posts.map(el =>
             <div>
-              <div>{el.date}</div>
               <div><h2>{el.title}</h2></div>
+              <div>{el.date}</div>
               <div>{el.body}</div>
             </div>
           )}
