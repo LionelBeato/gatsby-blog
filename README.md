@@ -97,3 +97,9 @@ Looking for more guidance? Full documentation for Gatsby lives [on the website](
 [![Deploy with ZEIT Now](https://zeit.co/button)](https://zeit.co/import/project?template=https://github.com/gatsbyjs/gatsby-starter-default)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
+
+## Deployment 
+
+[Here is my deployment on Netlify!](https://friendly-turing-b18d49.netlify.com/). Go ahead and take a look.
+
+[Here is a link to my backend.](https://aqueous-reef-83072.herokuapp.com/graphql)
