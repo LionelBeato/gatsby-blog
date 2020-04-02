@@ -12,7 +12,7 @@ export const Post = (props) => {
         bg='muted'>
              <h2>{props.title}</h2>
     <h4>{props.date}</h4>
-      <p>{props.body}</p>
+      <pre>{props.body}</pre>
     </Container>
     )
 }
