@@ -9,7 +9,8 @@ export const Post = (props) => {
     return (
         <Container
         p={4}
-        bg='muted'>
+        bg='muted'
+        whiteSpace='pre'>
              <h2>{props.title}</h2>
     <h4>{props.date}</h4>
       <p>{props.body}</p>
