@@ -3,7 +3,6 @@ import { Link } from "gatsby"
 import Layout from "../components/layout"
 import Image from "../components/image"
 import SEO from "../components/seo"
-import  Mark  from "../pages/mark.md"
 import { Flex, Container, Box } from "theme-ui"
 import { Query } from "react-apollo"
 import { Post } from "../components/Post"
@@ -22,12 +21,7 @@ const APOLLO_QUERY = gql`
 `
 
 const IndexPage = () => (
-  <div>
-
-    <Container>
-    <Mark/>
-
-    </Container>
+ 
     
     <Query query={APOLLO_QUERY}>
       {({ data, loading, error }) => {
@@ -44,7 +38,6 @@ const IndexPage = () => (
         )
       }}
     </Query>
-  </div>
 )
 
 export default IndexPage
