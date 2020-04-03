@@ -11,7 +11,7 @@ export const Post = (props) => {
         p={4}
         bg='muted'
         sx={{
-          whiteSpace:'pre-wrap'
+          whiteSpace:"pre-line"
         }}>
              <h2>{props.title}</h2>
     <h4>{props.date}</h4>
