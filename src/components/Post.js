@@ -10,7 +10,7 @@ export const Post = (props) => {
         <Container
         p={4}
         bg='muted'
-        sx={{
+        style={{
           whiteSpace:"pre-line"
         }}>
              <h2>{props.title}</h2>
