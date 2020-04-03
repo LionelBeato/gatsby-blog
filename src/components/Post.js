@@ -10,12 +10,12 @@ export const Post = (props) => {
         <Container
         p={4}
         bg='muted'
-        >
+        style={{
+          whiteSpace:"pre-line"
+        }}>
              <h2>{props.title}</h2>
     <h4>{props.date}</h4>
-      <p sx={{
-          whiteSpace:'pre-wrap'
-        }}>{props.body}</p>
+      <p>{props.body}</p>
     </Container>
     )
 }
