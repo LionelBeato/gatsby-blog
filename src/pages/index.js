@@ -87,6 +87,7 @@ const IndexPage = () => {
     let b = body
     addPost({ variables: { title: t, body: b } })
     handleClick()
+    location.reload();
   }
 
   return (
