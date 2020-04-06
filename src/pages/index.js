@@ -87,8 +87,10 @@ const IndexPage = () => {
     let b = body
     addPost({ variables: { title: t, body: b } })
     handleClick()
-    location.reload();
+    window.location.reload();
   }
+
+
 
   return (
     <div>
@@ -100,9 +102,11 @@ const IndexPage = () => {
           <Label htmlFor="body">Body</Label>
           <Textarea name="body" rows="6" mb={3} onChange={bodyHandler} />
           <Button>Submit</Button>
-          <Button sx={{ float: "right" }}>Cancel</Button>
+          <Button onClick={handleClick} sx={{ float: "right" }}>Cancel</Button>
         </Box>
+
       </ReactModal>
+      
 
       <Flex as="nav" p={4}>
         <NavLink href="#!" p={2}>
