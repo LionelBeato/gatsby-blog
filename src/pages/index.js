@@ -46,6 +46,25 @@ const ADD_POST = gql`
 `
 
 const IndexPage = () => {
+
+  const style = {
+    appearance: "none",
+    marginLeft: "auto",
+    display: "inline-block",
+    textAlign: "center",
+    lineHeight: "inherit",
+    textDecoration: "none",
+    fontSize: "inherit",
+    fontWeight: "bold",
+    m: 0,
+    px: 3,
+    py: 2,
+    border: 0,
+    borderRadius: 4,
+    variant: "buttons.primary",
+  }
+
+
   const [modal, setModal] = useState(false)
   const [addPost, { data }] = useMutation(ADD_POST)
   const [title, setTitle] = useState("")
@@ -96,22 +115,7 @@ const IndexPage = () => {
         </NavLink>
         <button
           onClick={handleClick}
-          sx={{
-            appearance: "none",
-            marginLeft: "auto",
-            display: "inline-block",
-            textAlign: "center",
-            lineHeight: "inherit",
-            textDecoration: "none",
-            fontSize: "inherit",
-            fontWeight: "bold",
-            m: 0,
-            px: 3,
-            py: 2,
-            border: 0,
-            borderRadius: 4,
-            variant: "buttons.primary",
-          }}
+          sx={style}
         >
           New Post
         </button>
@@ -125,9 +129,9 @@ const IndexPage = () => {
           return (
             <div>
               {/* simple map higher order function that will render all of our games */}
-              {data.posts.map(el => (
+              {Array.from(data.posts.map(el => (
                 <Post title={el.title} date={el.date} body={el.body} />
-              ))}
+              ))).reverse()}
             </div>
           )
         }}
