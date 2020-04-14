@@ -4,6 +4,7 @@ import { Link } from "gatsby"
 import Layout from "../components/layout"
 import Image from "../components/image"
 import SEO from "../components/seo"
+
 import { useMutation } from "@apollo/react-hooks"
 import {
   Button,
@@ -21,9 +22,11 @@ import {
 } from "theme-ui"
 import { Query } from "react-apollo"
 import { Post } from "../components/Post"
+import { NavBar } from "../components/navbar"
 import gql from "graphql-tag"
 /** @jsx jsx */
 import { jsx } from "theme-ui"
+import "../styles/global.css"
 
 const APOLLO_QUERY = gql`
   {
@@ -47,29 +50,15 @@ const ADD_POST = gql`
 
 const IndexPage = () => {
 
-  const style = {
-    appearance: "none",
-    marginLeft: "auto",
-    display: "inline-block",
-    textAlign: "center",
-    lineHeight: "inherit",
-    textDecoration: "none",
-    fontSize: "inherit",
-    fontWeight: "bold",
-    m: 0,
-    px: 3,
-    py: 2,
-    border: 0,
-    borderRadius: 4,
-    variant: "buttons.primary",
-  }
 
-
+  // these are my hooks
   const [modal, setModal] = useState(false)
   const [addPost, { data }] = useMutation(ADD_POST)
   const [title, setTitle] = useState("")
   const [body, setBody] = useState("")
 
+
+  // these are my handlers 
   const bodyHandler = event => {
     setBody(event.target.value)
   }
@@ -87,13 +76,13 @@ const IndexPage = () => {
     let b = body
     addPost({ variables: { title: t, body: b } })
     handleClick()
-    window.location.reload();
+    window.location.reload()
   }
 
-
-
+  // this is the jsx
   return (
     <div>
+      {/* this is my modal code */}
       <ReactModal isOpen={modal}>
         <Box as="form" onSubmit={handleForm}>
           <Label htmlFor="title">Title</Label>
@@ -102,29 +91,14 @@ const IndexPage = () => {
           <Label htmlFor="body">Body</Label>
           <Textarea name="body" rows="6" mb={3} onChange={bodyHandler} />
           <Button>Submit</Button>
-          <Button onClick={handleClick} sx={{ float: "right" }}>Cancel</Button>
+          <Button onClick={handleClick} sx={{ float: "right" }}>
+            Cancel
+          </Button>
         </Box>
-
       </ReactModal>
-      
 
-      <Flex as="nav" p={4}>
-        <NavLink href="#!" p={2}>
-          Home
-        </NavLink>
-        <NavLink href="#!" p={2}>
-          Blog
-        </NavLink>
-        <NavLink href="/test" p={2}>
-          Test
-        </NavLink>
-        <button
-          onClick={handleClick}
-          sx={style}
-        >
-          New Post
-        </button>
-      </Flex>
+
+      <NavBar click={handleClick} />
 
       <Query query={APOLLO_QUERY}>
         {({ data, loading, error }) => {
@@ -134,9 +108,13 @@ const IndexPage = () => {
           return (
             <div>
               {/* simple map higher order function that will render all of our games */}
-              {Array.from(data.posts.map(el => (
-                <Post title={el.title} date={el.date} body={el.body} />
-              ))).reverse()}
+              {Array.from(
+                data.posts.map(el => (
+              // Here I defined a prop for my Post component that lets me pass a class to its body
+              // this class is important for line-clamping (or truncating)
+                  <Post bodyStyle="line-clamp" title={el.title} date={el.date} body={el.body} />
+                ))
+              ).reverse()}
             </div>
           )
         }}
