@@ -29,9 +29,6 @@ export const Post = props => {
         <p>{props.body}</p>
       </ReactModal>
 
-
-
-
       <Container
         p={4}
         bg="muted"
@@ -42,7 +39,7 @@ export const Post = props => {
 
         {/* code for opening the post as a modal, the title will appear
             clickable because of the title css class */}
-        <h2 onClick={handleClick}className="title">{props.title}</h2>
+        <h2 onClick={handleClick} className="title">{props.title}</h2>
         <h4>{props.date}</h4>
         <p className={props.bodyStyle} >{props.body}</p>
       </Container>

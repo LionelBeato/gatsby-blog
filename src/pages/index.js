@@ -6,6 +6,7 @@ import Image from "../components/image"
 import SEO from "../components/seo"
 
 import { useMutation } from "@apollo/react-hooks"
+import { useQuery } from '@apollo/react-hooks';
 import {
   Button,
   Flex,
@@ -27,6 +28,7 @@ import gql from "graphql-tag"
 /** @jsx jsx */
 import { jsx } from "theme-ui"
 import "../styles/global.css"
+import LINKS_PER_PAGE from"../apollo/constants"
 
 const APOLLO_QUERY = gql`
   {
@@ -48,7 +50,18 @@ const ADD_POST = gql`
   }
 `
 
-const IndexPage = () => {
+const IndexPage = (props) => {
+
+
+  const _getQueryVariables = () => {
+    const isNewPage = props.location.pathname.includes('new')
+    const page = parseInt(props.match.params.page, 10)
+  
+    const skip = isNewPage ? (page - 1) * LINKS_PER_PAGE : 0
+    const first = isNewPage ? LINKS_PER_PAGE : 100
+    const orderBy = isNewPage ? 'createdAt_DESC' : null
+    return { first, skip, orderBy }
+  }
 
 
   // these are my hooks
@@ -100,7 +113,7 @@ const IndexPage = () => {
 
       <NavBar click={handleClick} />
 
-      <Query query={APOLLO_QUERY}>
+      <Query query={APOLLO_QUERY} variables={_getQueryVariables}>
         {({ data, loading, error }) => {
           if (loading) return <span>Loading...</span>
           if (error) return <p>{error.message}</p>
