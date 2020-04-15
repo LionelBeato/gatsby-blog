@@ -6,9 +6,10 @@ import Image from "../components/image"
 import SEO from "../components/seo"
 
 import { useMutation } from "@apollo/react-hooks"
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from "@apollo/react-hooks"
 import {
   Button,
+  Grid,
   Flex,
   Container,
   Box,
@@ -28,17 +29,10 @@ import gql from "graphql-tag"
 /** @jsx jsx */
 import { jsx } from "theme-ui"
 import "../styles/global.css"
-import LINKS_PER_PAGE from"../apollo/constants"
+import LINKS_PER_PAGE from "../apollo/constants"
+import PostQuery from "../components/postquery"
 
-const APOLLO_QUERY = gql`
-  {
-    posts {
-      title
-      date
-      body
-    }
-  }
-`
+
 
 const ADD_POST = gql`
   mutation($title: String, $body: String) {
@@ -50,28 +44,18 @@ const ADD_POST = gql`
   }
 `
 
-const IndexPage = (props) => {
-
-
-  const _getQueryVariables = () => {
-    const isNewPage = props.location.pathname.includes('new')
-    const page = parseInt(props.match.params.page, 10)
-  
-    const skip = isNewPage ? (page - 1) * LINKS_PER_PAGE : 0
-    const first = isNewPage ? LINKS_PER_PAGE : 100
-    const orderBy = isNewPage ? 'createdAt_DESC' : null
-    return { first, skip, orderBy }
-  }
+const IndexPage = ({pageNumber, pageSize}) => {
 
 
   // these are my hooks
+  // const [pageNumber, setPageNumber] = useState(0)
+  // const [pageSize, setPageSize] = useState(5)
   const [modal, setModal] = useState(false)
   const [addPost, { data }] = useMutation(ADD_POST)
   const [title, setTitle] = useState("")
   const [body, setBody] = useState("")
 
-
-  // these are my handlers 
+  // these are my handlers
   const bodyHandler = event => {
     setBody(event.target.value)
   }
@@ -110,28 +94,14 @@ const IndexPage = (props) => {
         </Box>
       </ReactModal>
 
-
       <NavBar click={handleClick} />
 
-      <Query query={APOLLO_QUERY} variables={_getQueryVariables}>
-        {({ data, loading, error }) => {
-          if (loading) return <span>Loading...</span>
-          if (error) return <p>{error.message}</p>
 
-          return (
-            <div>
-              {/* simple map higher order function that will render all of our games */}
-              {Array.from(
-                data.posts.map(el => (
-              // Here I defined a prop for my Post component that lets me pass a class to its body
-              // this class is important for line-clamping (or truncating)
-                  <Post bodyStyle="line-clamp" title={el.title} date={el.date} body={el.body} />
-                ))
-              ).reverse()}
-            </div>
-          )
-        }}
-      </Query>
+      <PostQuery pageNumber={0} pageSize={5}/>
+
+     
+
+   
     </div>
   )
 }

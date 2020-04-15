@@ -43,6 +43,8 @@ export const Post = props => {
         <h4>{props.date}</h4>
         <p className={props.bodyStyle} >{props.body}</p>
       </Container>
+
+      
       </div>
 
   )
