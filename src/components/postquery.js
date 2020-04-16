@@ -17,6 +17,15 @@ const PAGED_QUERY = gql`
     }
   }
 `
+
+const TOTAL_QUERY = gql`
+  query($pageNumber: Int, $pageSize: Int) {
+    getTotalPages(pageNumber: $pageNumber, pageSize: $pageSize)
+  }
+`
+
+// this was the original apollo query 
+// it's not being used
 const SIMPLE_QUERY = gql`
   query {
     posts {
@@ -28,11 +37,21 @@ const SIMPLE_QUERY = gql`
 `
 
 const PostQuery = () => {
+  // state for pages
   const [page, setPage] = useState({ pageNumber: 0, pageSize: 5 })
-  const handleClick = (event) => {
-      const currentPage = event.target.innerHTML;
-      console.log(currentPage)
-      setPage({pageNumber:currentPage, pageSize:5})
+  // event listener that will change the current page state, altering the query
+  const handleClick = event => {
+    const currentPage = event.target.innerHTML
+    console.log(currentPage)
+    setPage({ pageNumber: currentPage, pageSize: 5 })
+  }
+
+  let navArr = []
+
+  const navBuilder = x => {
+    for (let i = 0; i <= x; i++) {
+      navArr.push(i)
+    }
   }
 
   return (
@@ -45,7 +64,7 @@ const PostQuery = () => {
           return (
             <div>
               {/* simple map higher order function that will render all of our posts */}
-              {Array.from(
+              {
                 data.findAllPosts.map(el => (
                   // Here I defined a prop for my Post component that lets me pass a class to its body
                   // this class is important for line-clamping (or truncating)
@@ -56,7 +75,7 @@ const PostQuery = () => {
                     body={el.body}
                   />
                 ))
-              ).reverse()}
+           }
             </div>
           )
         }}
@@ -70,20 +89,24 @@ const PostQuery = () => {
           py: 4,
         }}
       >
-        <Grid gap={2} columns={4}>
-          <Box className="title" bg="primary" onClick={handleClick}>
-            0
-          </Box>
-          <Box className="title" bg="muted" onClick={handleClick}>
-            1
-          </Box>
-          <Box className="title" bg="primary" onClick={handleClick}>
-            2
-          </Box>
-          <Box className="title" bg="muted" onClick={handleClick}>
-            3
-          </Box>
-        </Grid>
+        <Query query={TOTAL_QUERY} variables={page}>
+          {({ data, loading, error }) => {
+            if (loading) return <span>Loading...</span>
+            if (error) return <p>{error.message}</p>
+
+            return (
+              <div>
+                {navBuilder(data.getTotalPages)}
+                {console.log(navArr)}
+                <Grid gap={2} columns={12}>
+                  {navArr.map(el => (
+                    <Box><span onClick={handleClick} class="title">{el}</span></Box>
+                  ))}
+                </Grid>
+              </div>
+            )
+          }}
+        </Query>
       </div>
     </div>
   )

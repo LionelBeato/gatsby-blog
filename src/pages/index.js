@@ -97,7 +97,7 @@ const IndexPage = ({pageNumber, pageSize}) => {
       <NavBar click={handleClick} />
 
 
-      <PostQuery pageNumber={0} pageSize={5}/>
+      <PostQuery/>
 
      
 
