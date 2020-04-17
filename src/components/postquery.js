@@ -7,36 +7,36 @@ import ReactModal from "react-modal"
 import { Query } from "react-apollo"
 import { Post } from "../components/Post"
 import gql from "graphql-tag"
+import {PAGED_QUERY, SIMPLE_QUERY, TOTAL_QUERY} from "../components/allqueries"
 
-const PAGED_QUERY = gql`
-  query($pageNumber: Int, $pageSize: Int) {
-    findAllPosts(pageNumber: $pageNumber, pageSize: $pageSize) {
-      title
-      date
-      body
-    }
-  }
-`
+// const PAGED_QUERY = gql`
+//   query($pageNumber: Int, $pageSize: Int) {
+//     findAllPosts(pageNumber: $pageNumber, pageSize: $pageSize) {
+//       title
+//       date
+//       body
+//     }
+//   }
+// `
 
-const TOTAL_QUERY = gql`
-  query($pageNumber: Int, $pageSize: Int) {
-    getTotalPages(pageNumber: $pageNumber, pageSize: $pageSize)
-  }
-`
+
 
 // this was the original apollo query 
 // it's not being used
-const SIMPLE_QUERY = gql`
-  query {
-    posts {
-      title
-      date
-      body
-    }
-  }
-`
+// const SIMPLE_QUERY = gql`
+//   query {
+//     posts {
+//       title
+//       date
+//       body
+//     }
+//   }
+// `
 
-const PostQuery = () => {
+const PostQuery = (props) => {
+
+
+  const passedQuery = props.passedQuery
   // state for pages
   const [page, setPage] = useState({ pageNumber: 0, pageSize: 5 })
   // event listener that will change the current page state, altering the query
@@ -56,14 +56,18 @@ const PostQuery = () => {
 
   return (
     <div>
-      <Query query={PAGED_QUERY} variables={page}>
+      <Query query={props.passedQuery} variables={page}>
         {({ data, loading, error }) => {
           if (loading) return <span>Loading...</span>
           if (error) return <p>{error.message}</p>
 
-          return (
+          if (props.passedQuery === PAGED_QUERY) return (
             <div>
+              {console.log(`you queried PAGED_QUERY`)}
               {/* simple map higher order function that will render all of our posts */}
+             
+             
+             
               {
                 data.findAllPosts.map(el => (
                   // Here I defined a prop for my Post component that lets me pass a class to its body
@@ -77,6 +81,10 @@ const PostQuery = () => {
                 ))
            }
             </div>
+          )
+
+          if (props.passedQuery === SIMPLE_QUERY) return (
+            <div>Here are some fruits!</div>
           )
         }}
       </Query>
@@ -100,7 +108,7 @@ const PostQuery = () => {
                 {console.log(navArr)}
                 <Grid gap={2} columns={12}>
                   {navArr.map(el => (
-                    <Box><span onClick={handleClick} class="title">{el}</span></Box>
+                    <Box><span onClick={handleClick} className="title">{el}</span></Box>
                   ))}
                 </Grid>
               </div>

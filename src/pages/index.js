@@ -31,7 +31,7 @@ import { jsx } from "theme-ui"
 import "../styles/global.css"
 import LINKS_PER_PAGE from "../apollo/constants"
 import PostQuery from "../components/postquery"
-
+import {PAGED_QUERY, SIMPLE_QUERY} from "../components/allqueries"
 
 
 const ADD_POST = gql`
@@ -97,7 +97,7 @@ const IndexPage = ({pageNumber, pageSize}) => {
       <NavBar click={handleClick} />
 
 
-      <PostQuery/>
+      <PostQuery passedQuery={PAGED_QUERY}/>
 
      
 
